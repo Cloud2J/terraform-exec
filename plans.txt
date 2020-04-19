@@ -1,0 +1,698 @@
+~/Git/terraform-exec on  master! ⌚ 22:05:19
+$ terraform plan
+Refreshing Terraform state in-memory prior to plan...
+The refreshed state will be used to calculate this plan, but will not be
+persisted to local or remote state storage.
+
+aws_ecs_task_definition.taskdef: Refreshing state... [id=dev1-rmit-cc-test]
+aws_ecs_cluster.ecscluster: Refreshing state... [id=arn:aws:ecs:us-east-1:757439532820:cluster/dev1-rmit-cc-test]
+aws_ecs_service.ecsservice: Refreshing state... [id=arn:aws:ecs:us-east-1:757439532820:service/dev1-rmit-cc-test]
+
+------------------------------------------------------------------------
+
+An execution plan has been generated and is shown below.
+Resource actions are indicated with the following symbols:
+  + create
+-/+ destroy and then create replacement
+
+Terraform will perform the following actions:
+
+  # aws_autoscaling_group.ecs-autoscaling-group will be created
+  + resource "aws_autoscaling_group" "ecs-autoscaling-group" {
+      + arn                       = (known after apply)
+      + availability_zones        = (known after apply)
+      + default_cooldown          = (known after apply)
+      + desired_capacity          = 1
+      + force_delete              = false
+      + health_check_grace_period = 300
+      + health_check_type         = "ELB"
+      + id                        = (known after apply)
+      + launch_configuration      = "dev1-rmit-cc"
+      + load_balancers            = (known after apply)
+      + max_size                  = 1
+      + metrics_granularity       = "1Minute"
+      + min_size                  = 1
+      + name                      = "dev1-rmit-cc"
+      + protect_from_scale_in     = false
+      + service_linked_role_arn   = (known after apply)
+      + target_group_arns         = (known after apply)
+      + vpc_zone_identifier       = [
+          + "subnet-7014e016",
+          + "subnet-91fa08b0",
+        ]
+      + wait_for_capacity_timeout = "10m"
+    }
+
+  # aws_ecs_cluster.ecscluster must be replaced
+-/+ resource "aws_ecs_cluster" "ecscluster" {
+      ~ arn                = "arn:aws:ecs:us-east-1:757439532820:cluster/dev1-rmit-cc-test" -> (known after apply)
+      - capacity_providers = [] -> null
+      ~ id                 = "arn:aws:ecs:us-east-1:757439532820:cluster/dev1-rmit-cc-test" -> (known after apply)
+      ~ name               = "dev1-rmit-cc-test" -> "dev1-rmit-cc" # forces replacement
+        tags               = {
+            "Application" = "Cloud Computing A2"
+            "Owner"       = "Cloud2J"
+            "Terraform"   = "true"
+        }
+
+        setting {
+            name  = "containerInsights"
+            value = "disabled"
+        }
+    }
+
+  # aws_ecs_service.ecsservice must be replaced
+-/+ resource "aws_ecs_service" "ecsservice" {
+      ~ cluster                            = "arn:aws:ecs:us-east-1:757439532820:cluster/dev1-rmit-cc-test" -> (known after apply) # forces replacement
+        deployment_maximum_percent         = 200
+        deployment_minimum_healthy_percent = 100
+        desired_count                      = 0
+        enable_ecs_managed_tags            = false
+      - health_check_grace_period_seconds  = 0 -> null
+      + iam_role                           = (known after apply)
+      ~ id                                 = "arn:aws:ecs:us-east-1:757439532820:service/dev1-rmit-cc-test" -> (known after apply)
+      ~ launch_type                        = "EC2" -> (known after apply)
+      ~ name                               = "dev1-rmit-cc-test" -> "dev1-rmit-cc" # forces replacement
+      + platform_version                   = (known after apply)
+      - propagate_tags                     = "NONE" -> null
+        scheduling_strategy                = "REPLICA"
+      - tags                               = {} -> null
+      ~ task_definition                    = "dev1-rmit-cc-test:2" -> (known after apply)
+
+      - deployment_controller {
+          - type = "ECS" -> null
+        }
+
+      + load_balancer { # forces replacement
+          + container_name   = "container-def-todo"
+          + container_port   = 80
+          + target_group_arn = (known after apply)
+        }
+
+      + placement_strategy {
+          + field = (known after apply)
+          + type  = (known after apply)
+        }
+    }
+
+  # aws_ecs_task_definition.taskdef must be replaced
+-/+ resource "aws_ecs_task_definition" "taskdef" {
+      ~ arn                      = "arn:aws:ecs:us-east-1:757439532820:task-definition/dev1-rmit-cc-test:2" -> (known after apply)
+      ~ container_definitions    = jsonencode(
+          ~ [ # forces replacement
+              ~ {
+                  - cpu              = 0 -> null
+                  - environment      = [] -> null
+                    essential        = true
+                    image            = "757439532820.dkr.ecr.us-east-1.amazonaws.com/dev1-rmit-cc"
+                  + logConfiguration = {
+                      + awslogs-group         = "dev1-rmit-cc"
+                      + awslogs-region        = "us-east-1"
+                      + awslogs-stream-prefix = "dev1-rmit-cc_"
+                      + logDriver             = "awslogs"
+                    }
+                    memory           = 512
+                  - mountPoints      = [] -> null
+                    name             = "dev1-rmit-cc"
+                    portMappings     = [
+                        {
+                            containerPort = 80
+                            hostPort      = 80
+                            protocol      = "tcp"
+                        },
+                        {
+                            containerPort = 443
+                            hostPort      = 443
+                            protocol      = "tcp"
+                        },
+                    ]
+                  - volumesFrom      = [] -> null
+                } # forces replacement,
+            ]
+        )
+      ~ family                   = "dev1-rmit-cc-test" -> "dev1-rmit-cc" # forces replacement
+      ~ id                       = "dev1-rmit-cc-test" -> (known after apply)
+      + network_mode             = (known after apply)
+      - requires_compatibilities = [] -> null
+      ~ revision                 = 2 -> (known after apply)
+      - tags                     = {} -> null
+    }
+
+  # aws_launch_configuration.ecs-launch-config will be created
+  + resource "aws_launch_configuration" "ecs-launch-config" {
+      + arn                         = (known after apply)
+      + associate_public_ip_address = false
+      + ebs_optimized               = (known after apply)
+      + enable_monitoring           = true
+      + id                          = (known after apply)
+      + image_id                    = "ami-0323c3dd2da7fb37d"
+      + instance_type               = "t2.micro"
+      + key_name                    = (known after apply)
+      + name                        = "dev1-rmit-cc"
+
+      + ebs_block_device {
+          + delete_on_termination = (known after apply)
+          + device_name           = (known after apply)
+          + encrypted             = (known after apply)
+          + iops                  = (known after apply)
+          + no_device             = (known after apply)
+          + snapshot_id           = (known after apply)
+          + volume_size           = (known after apply)
+          + volume_type           = (known after apply)
+        }
+
+      + root_block_device {
+          + delete_on_termination = (known after apply)
+          + encrypted             = (known after apply)
+          + iops                  = (known after apply)
+          + volume_size           = (known after apply)
+          + volume_type           = (known after apply)
+        }
+    }
+
+  # aws_lb_target_group.lb-tg will be created
+  + resource "aws_lb_target_group" "lb-tg" {
+      + arn                                = (known after apply)
+      + arn_suffix                         = (known after apply)
+      + deregistration_delay               = 300
+      + id                                 = (known after apply)
+      + lambda_multi_value_headers_enabled = false
+      + load_balancing_algorithm_type      = (known after apply)
+      + name                               = "dev1-rmit-cc"
+      + port                               = 80
+      + protocol                           = "HTTP"
+      + proxy_protocol_v2                  = false
+      + slow_start                         = 0
+      + target_type                        = "instance"
+      + vpc_id                             = "vpc-fccdcd86"
+
+      + health_check {
+          + enabled             = (known after apply)
+          + healthy_threshold   = (known after apply)
+          + interval            = (known after apply)
+          + matcher             = (known after apply)
+          + path                = (known after apply)
+          + port                = (known after apply)
+          + protocol            = (known after apply)
+          + timeout             = (known after apply)
+          + unhealthy_threshold = (known after apply)
+        }
+
+      + stickiness {
+          + cookie_duration = (known after apply)
+          + enabled         = (known after apply)
+          + type            = (known after apply)
+        }
+    }
+
+  # aws_s3_bucket.bucket will be created
+  + resource "aws_s3_bucket" "bucket" {
+      + acceleration_status         = (known after apply)
+      + acl                         = "private"
+      + arn                         = (known after apply)
+      + bucket                      = (known after apply)
+      + bucket_domain_name          = (known after apply)
+      + bucket_prefix               = "dev1-rmit-cc"
+      + bucket_regional_domain_name = (known after apply)
+      + force_destroy               = false
+      + hosted_zone_id              = (known after apply)
+      + id                          = (known after apply)
+      + region                      = (known after apply)
+      + request_payer               = (known after apply)
+      + tags                        = {
+          + "Application" = "Cloud Computing A2"
+          + "Owner"       = "Cloud2J"
+          + "Terraform"   = "true"
+        }
+      + website_domain              = (known after apply)
+      + website_endpoint            = (known after apply)
+
+      + versioning {
+          + enabled    = true
+          + mfa_delete = false
+        }
+    }
+
+  # aws_security_group.sg-main will be created
+  + resource "aws_security_group" "sg-main" {
+      + arn                    = (known after apply)
+      + description            = "Allow HTTP and SSH inbound traffic"
+      + egress                 = (known after apply)
+      + id                     = (known after apply)
+      + ingress                = (known after apply)
+      + name                   = "dev1-rmit-cc"
+      + owner_id               = (known after apply)
+      + revoke_rules_on_delete = false
+      + tags                   = {
+          + "Application" = "Cloud Computing A2"
+          + "Owner"       = "Cloud2J"
+          + "Terraform"   = "true"
+        }
+      + vpc_id                 = "vpc-fccdcd86"
+    }
+
+  # aws_security_group_rule.sg-rule-inbound-http will be created
+  + resource "aws_security_group_rule" "sg-rule-inbound-http" {
+      + description              = "Allow inbound HTTP"
+      + from_port                = 80
+      + id                       = (known after apply)
+      + protocol                 = "tcp"
+      + security_group_id        = (known after apply)
+      + self                     = false
+      + source_security_group_id = (known after apply)
+      + to_port                  = 80
+      + type                     = "ingress"
+    }
+
+  # aws_security_group_rule.sg-rule-inbound-ssh will be created
+  + resource "aws_security_group_rule" "sg-rule-inbound-ssh" {
+      + description              = "Allow inbound SSH"
+      + from_port                = 22
+      + id                       = (known after apply)
+      + protocol                 = "tcp"
+      + security_group_id        = (known after apply)
+      + self                     = false
+      + source_security_group_id = (known after apply)
+      + to_port                  = 22
+      + type                     = "ingress"
+    }
+
+  # aws_security_group_rule.sg-rule-outbound-all will be created
+  + resource "aws_security_group_rule" "sg-rule-outbound-all" {
+      + cidr_blocks              = [
+          + "0.0.0.0/0",
+        ]
+      + description              = "Allow inbound SSH"
+      + from_port                = 0
+      + id                       = (known after apply)
+      + protocol                 = "-1"
+      + security_group_id        = (known after apply)
+      + self                     = false
+      + source_security_group_id = (known after apply)
+      + to_port                  = 0
+      + type                     = "ingress"
+    }
+
+Plan: 11 to add, 0 to change, 3 to destroy.
+
+------------------------------------------------------------------------
+
+Note: You didn't specify an "-out" parameter to save this plan, so Terraform
+can't guarantee that exactly these actions will be performed if
+"terraform apply" is subsequently run.
+
+
+~/Git/terraform-exec on  master! ⌚ 22:05:43
+$ terraform apply
+aws_ecs_task_definition.taskdef: Refreshing state... [id=dev1-rmit-cc-test]
+aws_ecs_cluster.ecscluster: Refreshing state... [id=arn:aws:ecs:us-east-1:757439532820:cluster/dev1-rmit-cc-test]
+aws_ecs_service.ecsservice: Refreshing state... [id=arn:aws:ecs:us-east-1:757439532820:service/dev1-rmit-cc-test]
+
+An execution plan has been generated and is shown below.
+Resource actions are indicated with the following symbols:
+  + create
+-/+ destroy and then create replacement
+
+Terraform will perform the following actions:
+
+  # aws_autoscaling_group.ecs-autoscaling-group will be created
+  + resource "aws_autoscaling_group" "ecs-autoscaling-group" {
+      + arn                       = (known after apply)
+      + availability_zones        = (known after apply)
+      + default_cooldown          = (known after apply)
+      + desired_capacity          = 1
+      + force_delete              = false
+      + health_check_grace_period = 300
+      + health_check_type         = "ELB"
+      + id                        = (known after apply)
+      + launch_configuration      = "dev1-rmit-cc"
+      + load_balancers            = (known after apply)
+      + max_size                  = 1
+      + metrics_granularity       = "1Minute"
+      + min_size                  = 1
+      + name                      = "dev1-rmit-cc"
+      + protect_from_scale_in     = false
+      + service_linked_role_arn   = (known after apply)
+      + target_group_arns         = (known after apply)
+      + vpc_zone_identifier       = [
+          + "subnet-7014e016",
+          + "subnet-91fa08b0",
+        ]
+      + wait_for_capacity_timeout = "10m"
+    }
+
+  # aws_ecs_cluster.ecscluster must be replaced
+-/+ resource "aws_ecs_cluster" "ecscluster" {
+      ~ arn                = "arn:aws:ecs:us-east-1:757439532820:cluster/dev1-rmit-cc-test" -> (known after apply)
+      - capacity_providers = [] -> null
+      ~ id                 = "arn:aws:ecs:us-east-1:757439532820:cluster/dev1-rmit-cc-test" -> (known after apply)
+      ~ name               = "dev1-rmit-cc-test" -> "dev1-rmit-cc" # forces replacement
+        tags               = {
+            "Application" = "Cloud Computing A2"
+            "Owner"       = "Cloud2J"
+            "Terraform"   = "true"
+        }
+
+        setting {
+            name  = "containerInsights"
+            value = "disabled"
+        }
+    }
+
+  # aws_ecs_service.ecsservice must be replaced
+-/+ resource "aws_ecs_service" "ecsservice" {
+      ~ cluster                            = "arn:aws:ecs:us-east-1:757439532820:cluster/dev1-rmit-cc-test" -> (known after apply) # forces replacement
+        deployment_maximum_percent         = 200
+        deployment_minimum_healthy_percent = 100
+        desired_count                      = 0
+        enable_ecs_managed_tags            = false
+      - health_check_grace_period_seconds  = 0 -> null
+      + iam_role                           = (known after apply)
+      ~ id                                 = "arn:aws:ecs:us-east-1:757439532820:service/dev1-rmit-cc-test" -> (known after apply)
+      ~ launch_type                        = "EC2" -> (known after apply)
+      ~ name                               = "dev1-rmit-cc-test" -> "dev1-rmit-cc" # forces replacement
+      + platform_version                   = (known after apply)
+      - propagate_tags                     = "NONE" -> null
+        scheduling_strategy                = "REPLICA"
+      - tags                               = {} -> null
+      ~ task_definition                    = "dev1-rmit-cc-test:2" -> (known after apply)
+
+      - deployment_controller {
+          - type = "ECS" -> null
+        }
+
+      + load_balancer { # forces replacement
+          + container_name   = "container-def-todo"
+          + container_port   = 80
+          + target_group_arn = (known after apply)
+        }
+
+      + placement_strategy {
+          + field = (known after apply)
+          + type  = (known after apply)
+        }
+    }
+
+  # aws_ecs_task_definition.taskdef must be replaced
+-/+ resource "aws_ecs_task_definition" "taskdef" {
+      ~ arn                      = "arn:aws:ecs:us-east-1:757439532820:task-definition/dev1-rmit-cc-test:2" -> (known after apply)
+      ~ container_definitions    = jsonencode(
+          ~ [ # forces replacement
+              ~ {
+                  - cpu              = 0 -> null
+                  - environment      = [] -> null
+                    essential        = true
+                    image            = "757439532820.dkr.ecr.us-east-1.amazonaws.com/dev1-rmit-cc"
+                  + logConfiguration = {
+                      + awslogs-group         = "dev1-rmit-cc"
+                      + awslogs-region        = "us-east-1"
+                      + awslogs-stream-prefix = "dev1-rmit-cc_"
+                      + logDriver             = "awslogs"
+                    }
+                    memory           = 512
+                  - mountPoints      = [] -> null
+                    name             = "dev1-rmit-cc"
+                    portMappings     = [
+                        {
+                            containerPort = 80
+                            hostPort      = 80
+                            protocol      = "tcp"
+                        },
+                        {
+                            containerPort = 443
+                            hostPort      = 443
+                            protocol      = "tcp"
+                        },
+                    ]
+                  - volumesFrom      = [] -> null
+                } # forces replacement,
+            ]
+        )
+      ~ family                   = "dev1-rmit-cc-test" -> "dev1-rmit-cc" # forces replacement
+      ~ id                       = "dev1-rmit-cc-test" -> (known after apply)
+      + network_mode             = (known after apply)
+      - requires_compatibilities = [] -> null
+      ~ revision                 = 2 -> (known after apply)
+      - tags                     = {} -> null
+    }
+
+  # aws_launch_configuration.ecs-launch-config will be created
+  + resource "aws_launch_configuration" "ecs-launch-config" {
+      + arn                         = (known after apply)
+      + associate_public_ip_address = false
+      + ebs_optimized               = (known after apply)
+      + enable_monitoring           = true
+      + id                          = (known after apply)
+      + image_id                    = "ami-0323c3dd2da7fb37d"
+      + instance_type               = "t2.micro"
+      + key_name                    = (known after apply)
+      + name                        = "dev1-rmit-cc"
+
+      + ebs_block_device {
+          + delete_on_termination = (known after apply)
+          + device_name           = (known after apply)
+          + encrypted             = (known after apply)
+          + iops                  = (known after apply)
+          + no_device             = (known after apply)
+          + snapshot_id           = (known after apply)
+          + volume_size           = (known after apply)
+          + volume_type           = (known after apply)
+        }
+
+      + root_block_device {
+          + delete_on_termination = (known after apply)
+          + encrypted             = (known after apply)
+          + iops                  = (known after apply)
+          + volume_size           = (known after apply)
+          + volume_type           = (known after apply)
+        }
+    }
+
+  # aws_lb_target_group.lb-tg will be created
+  + resource "aws_lb_target_group" "lb-tg" {
+      + arn                                = (known after apply)
+      + arn_suffix                         = (known after apply)
+      + deregistration_delay               = 300
+      + id                                 = (known after apply)
+      + lambda_multi_value_headers_enabled = false
+      + load_balancing_algorithm_type      = (known after apply)
+      + name                               = "dev1-rmit-cc"
+      + port                               = 80
+      + protocol                           = "HTTP"
+      + proxy_protocol_v2                  = false
+      + slow_start                         = 0
+      + target_type                        = "instance"
+      + vpc_id                             = "vpc-fccdcd86"
+
+      + health_check {
+          + enabled             = (known after apply)
+          + healthy_threshold   = (known after apply)
+          + interval            = (known after apply)
+          + matcher             = (known after apply)
+          + path                = (known after apply)
+          + port                = (known after apply)
+          + protocol            = (known after apply)
+          + timeout             = (known after apply)
+          + unhealthy_threshold = (known after apply)
+        }
+
+      + stickiness {
+          + cookie_duration = (known after apply)
+          + enabled         = (known after apply)
+          + type            = (known after apply)
+        }
+    }
+
+  # aws_s3_bucket.bucket will be created
+  + resource "aws_s3_bucket" "bucket" {
+      + acceleration_status         = (known after apply)
+      + acl                         = "private"
+      + arn                         = (known after apply)
+      + bucket                      = (known after apply)
+      + bucket_domain_name          = (known after apply)
+      + bucket_prefix               = "dev1-rmit-cc"
+      + bucket_regional_domain_name = (known after apply)
+      + force_destroy               = false
+      + hosted_zone_id              = (known after apply)
+      + id                          = (known after apply)
+      + region                      = (known after apply)
+      + request_payer               = (known after apply)
+      + tags                        = {
+          + "Application" = "Cloud Computing A2"
+          + "Owner"       = "Cloud2J"
+          + "Terraform"   = "true"
+        }
+      + website_domain              = (known after apply)
+      + website_endpoint            = (known after apply)
+
+      + versioning {
+          + enabled    = true
+          + mfa_delete = false
+        }
+    }
+
+  # aws_security_group.sg-main will be created
+  + resource "aws_security_group" "sg-main" {
+      + arn                    = (known after apply)
+      + description            = "Allow HTTP and SSH inbound traffic"
+      + egress                 = (known after apply)
+      + id                     = (known after apply)
+      + ingress                = (known after apply)
+      + name                   = "dev1-rmit-cc"
+      + owner_id               = (known after apply)
+      + revoke_rules_on_delete = false
+      + tags                   = {
+          + "Application" = "Cloud Computing A2"
+          + "Owner"       = "Cloud2J"
+          + "Terraform"   = "true"
+        }
+      + vpc_id                 = "vpc-fccdcd86"
+    }
+
+  # aws_security_group_rule.sg-rule-inbound-http will be created
+  + resource "aws_security_group_rule" "sg-rule-inbound-http" {
+      + description              = "Allow inbound HTTP"
+      + from_port                = 80
+      + id                       = (known after apply)
+      + protocol                 = "tcp"
+      + security_group_id        = (known after apply)
+      + self                     = false
+      + source_security_group_id = (known after apply)
+      + to_port                  = 80
+      + type                     = "ingress"
+    }
+
+  # aws_security_group_rule.sg-rule-inbound-ssh will be created
+  + resource "aws_security_group_rule" "sg-rule-inbound-ssh" {
+      + description              = "Allow inbound SSH"
+      + from_port                = 22
+      + id                       = (known after apply)
+      + protocol                 = "tcp"
+      + security_group_id        = (known after apply)
+      + self                     = false
+      + source_security_group_id = (known after apply)
+      + to_port                  = 22
+      + type                     = "ingress"
+    }
+
+  # aws_security_group_rule.sg-rule-outbound-all will be created
+  + resource "aws_security_group_rule" "sg-rule-outbound-all" {
+      + cidr_blocks              = [
+          + "0.0.0.0/0",
+        ]
+      + description              = "Allow inbound SSH"
+      + from_port                = 0
+      + id                       = (known after apply)
+      + protocol                 = "-1"
+      + security_group_id        = (known after apply)
+      + self                     = false
+      + source_security_group_id = (known after apply)
+      + to_port                  = 0
+      + type                     = "ingress"
+    }
+
+Plan: 11 to add, 0 to change, 3 to destroy.
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+
+aws_security_group.sg-main: Creating...
+aws_lb_target_group.lb-tg: Creating...
+aws_ecs_service.ecsservice: Destroying... [id=arn:aws:ecs:us-east-1:757439532820:service/dev1-rmit-cc-test]
+aws_launch_configuration.ecs-launch-config: Creating...
+aws_s3_bucket.bucket: Creating...
+aws_launch_configuration.ecs-launch-config: Creation complete after 4s [id=dev1-rmit-cc]
+aws_autoscaling_group.ecs-autoscaling-group: Creating...
+aws_lb_target_group.lb-tg: Creation complete after 7s [id=arn:aws:elasticloadbalancing:us-east-1:757439532820:targetgroup/dev1-rmit-cc/6da0c394b3552816]
+aws_security_group.sg-main: Creation complete after 9s [id=sg-09abeb89faacdea02]
+aws_security_group_rule.sg-rule-inbound-http: Creating...
+aws_security_group_rule.sg-rule-inbound-ssh: Creating...
+aws_security_group_rule.sg-rule-outbound-all: Creating...
+aws_ecs_service.ecsservice: Still destroying... [id=arn:aws:ecs:us-east-1:757439532820:service/dev1-rmit-cc-test, 10s elapsed]
+aws_s3_bucket.bucket: Still creating... [10s elapsed]
+aws_autoscaling_group.ecs-autoscaling-group: Still creating... [10s elapsed]
+aws_security_group_rule.sg-rule-outbound-all: Creation complete after 5s [id=sgrule-1257420330]
+aws_s3_bucket.bucket: Creation complete after 19s [id=dev1-rmit-cc20200419121921317700000001]
+aws_ecs_service.ecsservice: Still destroying... [id=arn:aws:ecs:us-east-1:757439532820:service/dev1-rmit-cc-test, 20s elapsed]
+aws_autoscaling_group.ecs-autoscaling-group: Still creating... [20s elapsed]
+aws_ecs_service.ecsservice: Still destroying... [id=arn:aws:ecs:us-east-1:757439532820:service/dev1-rmit-cc-test, 30s elapsed]
+aws_autoscaling_group.ecs-autoscaling-group: Still creating... [30s elapsed]
+aws_ecs_service.ecsservice: Still destroying... [id=arn:aws:ecs:us-east-1:757439532820:service/dev1-rmit-cc-test, 40s elapsed]
+aws_autoscaling_group.ecs-autoscaling-group: Still creating... [40s elapsed]
+aws_ecs_service.ecsservice: Destruction complete after 46s
+aws_ecs_cluster.ecscluster: Destroying... [id=arn:aws:ecs:us-east-1:757439532820:cluster/dev1-rmit-cc-test]
+aws_ecs_task_definition.taskdef: Destroying... [id=dev1-rmit-cc-test]
+aws_ecs_task_definition.taskdef: Destruction complete after 1s
+aws_ecs_task_definition.taskdef: Creating...
+aws_ecs_cluster.ecscluster: Destruction complete after 2s
+aws_ecs_cluster.ecscluster: Creating...
+aws_autoscaling_group.ecs-autoscaling-group: Still creating... [50s elapsed]
+aws_autoscaling_group.ecs-autoscaling-group: Still creating... [1m0s elapsed]
+aws_autoscaling_group.ecs-autoscaling-group: Still creating... [1m10s elapsed]
+aws_autoscaling_group.ecs-autoscaling-group: Still creating... [1m20s elapsed]
+aws_autoscaling_group.ecs-autoscaling-group: Still creating... [1m30s elapsed]
+aws_autoscaling_group.ecs-autoscaling-group: Still creating... [1m40s elapsed]
+aws_autoscaling_group.ecs-autoscaling-group: Creation complete after 1m42s [id=dev1-rmit-cc]
+
+Error: InvalidParameterException: Arguments on this idempotent request are inconsistent with arguments used in previous request(s).
+
+  on ecs.tf line 1, in resource "aws_ecs_cluster" "ecscluster":
+   1: resource "aws_ecs_cluster" "ecscluster" {
+
+
+
+Error: ClientException: Log driver awslogs requires options: awslogs-region, awslogs-group
+
+  on ecs.tf line 26, in resource "aws_ecs_task_definition" "taskdef":
+  26: resource "aws_ecs_task_definition" "taskdef" {
+
+
+
+Error: One of ['cidr_blocks', 'ipv6_cidr_blocks', 'self', 'source_security_group_id', 'prefix_list_ids'] must be set to create an AWS Security Group Rule
+
+  on sg.tf line 9, in resource "aws_security_group_rule" "sg-rule-inbound-http":
+   9: resource "aws_security_group_rule" "sg-rule-inbound-http" {
+
+
+
+Error: One of ['cidr_blocks', 'ipv6_cidr_blocks', 'self', 'source_security_group_id', 'prefix_list_ids'] must be set to create an AWS Security Group Rule
+
+  on sg.tf line 18, in resource "aws_security_group_rule" "sg-rule-inbound-ssh":
+  18: resource "aws_security_group_rule" "sg-rule-inbound-ssh" {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Error: InvalidParameterException: The target group with targetGroupArn arn:aws:elasticloadbalancing:us-east-1:757439532820:targetgroup/dev1-rmit-cc/a22ee82bfe1e7570 does not have an associated load balancer. "dev1-rmit-cc"
+
+  on ecs.tf line 12, in resource "aws_ecs_service" "ecsservice":
+  12: resource "aws_ecs_service" "ecsservice" {
+
+
+
+
+
+
+
+
+
+
+      
