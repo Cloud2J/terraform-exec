@@ -26,9 +26,19 @@ resource "aws_security_group_rule" "sg-rule-inbound-ssh" {
   security_group_id = aws_security_group.sg-main.id
 }
 
-resource "aws_security_group_rule" "sg-rule-outbound-all" {
+resource "aws_security_group_rule" "sg-rule-inbound-8080" {
   description       = "Allow inbound SSH"
   type              = "ingress"
+  from_port         = 8080
+  to_port           = 8080
+  protocol          = "tcp"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = aws_security_group.sg-main.id
+}
+
+resource "aws_security_group_rule" "sg-rule-outbound-all" {
+  description       = "Allow outbound all"
+  type              = "egress"
   from_port         = 0
   to_port           = 0
   protocol          = "-1"
