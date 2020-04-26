@@ -13,7 +13,7 @@ resource "aws_ecs_service" "ecsservice" {
   name            = var.ecs-service-name
   task_definition = aws_ecs_task_definition.taskdef.id #id or arn?
   cluster         = aws_ecs_cluster.ecscluster.id
-  desired_count   = 0
+  desired_count   = 1
 
   load_balancer {
     target_group_arn = aws_lb_target_group.lb-tg.arn

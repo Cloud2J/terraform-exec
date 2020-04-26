@@ -24,5 +24,6 @@ variable "subnet-id-map" {
 
 
 variable "ami-amazon-linux-2" {
-  default = "ami-0323c3dd2da7fb37d"
+  # default = "ami-0323c3dd2da7fb37d"
+  default = "ami-09edd32d9b0990d49" // ECS optimised
 }
