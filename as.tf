@@ -1,7 +1,7 @@
 resource "aws_launch_template" "launch-template" {
   name_prefix   = "dev1-rmit-cc"
   image_id      = var.ami-amazon-linux-2
-  instance_type = "t2.micro"
+  instance_type = "t2.medium"#"t2.micro"
   user_data     = filebase64("scripts/install_ecs_cluster.sh")
 
   iam_instance_profile {
@@ -14,7 +14,7 @@ resource "aws_launch_template" "launch-template" {
 
 resource "aws_autoscaling_group" "ecs-autoscaling-group" {
   name                = "dev1-rmit-cc"
-  max_size            = 3
+  max_size            = 2
   min_size            = 1
   desired_capacity    = 1
   vpc_zone_identifier = [lookup(var.subnet-id-map, "us-east-1a"), lookup(var.subnet-id-map, "us-east-1b")]

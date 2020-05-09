@@ -1,7 +1,7 @@
 [{
-    "name": "dev1-rmit-cc",
-    "image": "757439532820.dkr.ecr.us-east-1.amazonaws.com/dev1-rmit-cc",
-    "memory": 512,
+    "name": "coronavoider",
+    "image": "757439532820.dkr.ecr.us-east-1.amazonaws.com/coronavoider:a8e2ecc211f5568103b2bbe580c696b06bd0bd00",
+    "memory": 1000,
     "portMappings": [
         {
             "containerPort": 80,
