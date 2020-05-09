@@ -1,7 +1,7 @@
 resource "aws_launch_template" "launch-template" {
   name_prefix   = "dev1-rmit-cc"
   image_id      = var.ami-amazon-linux-2
-  instance_type = "t2.medium"#"t2.micro"
+  instance_type = "t2.medium" #"t2.micro"
   user_data     = filebase64("scripts/install_ecs_cluster.sh")
 
   iam_instance_profile {
