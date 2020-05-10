@@ -1,6 +1,6 @@
 [{
     "name": "coronavoider",
-    "image": "757439532820.dkr.ecr.us-east-1.amazonaws.com/coronavoider:a8e2ecc211f5568103b2bbe580c696b06bd0bd00",
+    "image": "335857502398.dkr.ecr.us-east-1.amazonaws.com/coronavoider:latest",
     "memory": 1000,
     "portMappings": [
         {
