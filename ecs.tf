@@ -1,5 +1,5 @@
 resource "aws_ecs_cluster" "ecscluster" {
-  name = var.ecs-cluster-name
+  name = "dev1-rmit-cc"
 
   setting {
     name  = "containerInsights" // adds cost so disabling for now
@@ -9,37 +9,24 @@ resource "aws_ecs_cluster" "ecscluster" {
   tags = local.mytags
 }
 
-resource "aws_ecs_service" "ecsservice" {
-  name            = var.ecs-service-name
-  task_definition = aws_ecs_task_definition.taskdef.id #id or arn?
+resource "aws_ecs_service" "ecsservice-frontend" {
+  name            = "coronavoider-frontend"
+  task_definition = aws_ecs_task_definition.taskdef-frontend.id
   cluster         = aws_ecs_cluster.ecscluster.id
   desired_count   = 1
   depends_on      = [aws_lb_listener.ecs-lb-listener]
 
   load_balancer {
     target_group_arn = aws_lb_target_group.lb-tg.arn
-    container_name   = "coronavoider"
+    container_name   = "coronavoider-frontend"
     container_port   = 80
   }
 }
 
-
-resource "aws_ecs_task_definition" "taskdef" {
-  family                = var.ecs-task-def-name
-  container_definitions = file("task-definitions/service.json")
+resource "aws_ecs_task_definition" "taskdef-frontend" {
+  family                = "coronavoider-frontend"
+  container_definitions = file("task-definitions/coronavoider-frontend.json")
 }
 
 
-
-variable "ecs-cluster-name" {
-  default = "dev1-rmit-cc"
-}
-
-variable "ecs-service-name" {
-  default = "dev1-rmit-cc"
-}
-
-variable "ecs-task-def-name" {
-  default = "dev1-rmit-cc"
-}
 
