@@ -33,6 +33,10 @@ resource "aws_lb_target_group" "lb-tg-frontend" {
   port     = 80
   protocol = "HTTP"
   vpc_id   = var.vpc-main
+  
+  health_check {
+    enabled = "false"
+  }
 }
 
 resource "aws_lb_listener" "ecs-lb-listener-backend" {
@@ -51,5 +55,9 @@ resource "aws_lb_target_group" "lb-tg-backend" {
   port     = 8080
   protocol = "HTTP"
   vpc_id   = var.vpc-main
+
+  health_check {
+    enabled = "false"
+  }
 }
 
