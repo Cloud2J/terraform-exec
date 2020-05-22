@@ -33,9 +33,12 @@ resource "aws_lb_target_group" "lb-tg-frontend" {
   port     = 80
   protocol = "HTTP"
   vpc_id   = var.vpc-main
-  
+
   health_check {
-    enabled = "false"
+    enabled  = "true"
+    interval = 300
+    path     = "/"
+    protocol = "HTTP"
   }
 }
 
@@ -57,7 +60,10 @@ resource "aws_lb_target_group" "lb-tg-backend" {
   vpc_id   = var.vpc-main
 
   health_check {
-    enabled = "false"
+    enabled  = "true"
+    interval = 300
+    path     = "/"
+    protocol = "HTTP"
   }
 }
 
