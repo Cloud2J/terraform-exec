@@ -19,7 +19,8 @@ resource "aws_autoscaling_group" "ecs-autoscaling-group" {
   desired_capacity    = 1
   vpc_zone_identifier = [lookup(var.subnet-id-map, "us-east-1a"), lookup(var.subnet-id-map, "us-east-1b")]
 
-  target_group_arns = [aws_lb_target_group.lb-tg.arn]
+  # i think this is optional..
+  # target_group_arns = [aws_lb_target_group.lb-tg-frontend.arn]
 
   launch_template {
     id      = aws_launch_template.launch-template.id
