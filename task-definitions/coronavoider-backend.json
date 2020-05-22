@@ -1,0 +1,13 @@
+[{
+    "name": "coronavoider-backend",
+    "image": "335857502398.dkr.ecr.us-east-1.amazonaws.com/coronavoider-backend:latest",
+    "memory": 500,
+    "portMappings": [
+        {
+            "containerPort": 8080,
+            "hostPort": 8080,
+            "protocol": "tcp"
+        }
+    ],
+    "essential": true
+}]

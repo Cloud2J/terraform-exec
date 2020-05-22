@@ -1,5 +1,5 @@
 resource "aws_lb" "ecs-lb" {
-  name               = var.ecs-lb-name
+  name               = "dev1-rmit-cc"
   internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.sg-main.id]
@@ -17,37 +17,39 @@ resource "aws_lb" "ecs-lb" {
   tags = local.mytags
 }
 
-resource "aws_lb_listener" "ecs-lb-listener" {
+resource "aws_lb_listener" "ecs-lb-listener-frontend" {
   load_balancer_arn = aws_lb.ecs-lb.arn
   port              = 80
   protocol          = "HTTP"
 
   default_action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.lb-tg.arn
+    target_group_arn = aws_lb_target_group.lb-tg-frontend.arn
   }
 }
 
-
-resource "aws_lb_target_group" "lb-tg" {
-  name     = var.ecs-lb-tg-name
+resource "aws_lb_target_group" "lb-tg-frontend" {
+  name     = "target-group-frontend"
   port     = 80
   protocol = "HTTP"
   vpc_id   = var.vpc-main
 }
 
-# resource "aws_lb_target_group_attachment" "lb-tg-1" {
-#   target_group_arn = aws_lb_target_group.lb-tg.arn
-#   target_id = 
+# resource "aws_lb_listener" "ecs-lb-listener-backend" {
+#   load_balancer_arn = aws_lb.ecs-lb.arn
+#   port              = 8080
+#   protocol          = "HTTP"
+
+#   default_action {
+#     type             = "forward"
+#     target_group_arn = aws_lb_target_group.lb-tg-backend.arn
+#   }
 # }
 
-
-
-variable "ecs-lb-name" {
-  default = "dev1-rmit-cc"
-}
-
-variable "ecs-lb-tg-name" {
-  default = "dev1-rmit-cc"
-}
+# resource "aws_lb_target_group" "lb-tg-backend" {
+#   name     = "target-group-backend"
+#   port     = 8080
+#   protocol = "HTTP"
+#   vpc_id   = var.vpc-main
+# }
 
