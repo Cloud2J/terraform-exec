@@ -35,21 +35,21 @@ resource "aws_lb_target_group" "lb-tg-frontend" {
   vpc_id   = var.vpc-main
 }
 
-# resource "aws_lb_listener" "ecs-lb-listener-backend" {
-#   load_balancer_arn = aws_lb.ecs-lb.arn
-#   port              = 8080
-#   protocol          = "HTTP"
+resource "aws_lb_listener" "ecs-lb-listener-backend" {
+  load_balancer_arn = aws_lb.ecs-lb.arn
+  port              = 8080
+  protocol          = "HTTP"
 
-#   default_action {
-#     type             = "forward"
-#     target_group_arn = aws_lb_target_group.lb-tg-backend.arn
-#   }
-# }
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.lb-tg-backend.arn
+  }
+}
 
-# resource "aws_lb_target_group" "lb-tg-backend" {
-#   name     = "target-group-backend"
-#   port     = 8080
-#   protocol = "HTTP"
-#   vpc_id   = var.vpc-main
-# }
+resource "aws_lb_target_group" "lb-tg-backend" {
+  name     = "target-group-backend"
+  port     = 8080
+  protocol = "HTTP"
+  vpc_id   = var.vpc-main
+}
 
